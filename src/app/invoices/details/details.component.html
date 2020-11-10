@@ -1,0 +1,94 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons
+      slot="start"
+      fxFlex="100"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <ion-button (click)="dismiss()" size="small">
+        <ion-icon name="arrow-back" slot="icon-only" mode="ios"></ion-icon>
+      </ion-button>
+
+      <ion-title>Invoice Details</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h3 class="ion-text-center">Invoice</h3>
+
+  <div class="ion-padding-bottom ion-margin-bottom"><b>Company Inc.</b></div>
+  <div fxLayout="row" class="ion-margin-bottom">
+    <div fxFlex="60" fxLayoutGap="8px" fxLayout="column">
+      <div fxLayout="row">
+        <div fxFlex="40"><b>Customer Name</b></div>
+        <div fxFlex>{{ componentProps.customer_name }}</div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="40"><b>Customer Address</b></div>
+        <div fxFlex>{{ componentProps.customer_address }}</div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="40"><b>Customer Phone</b></div>
+        <div fxFlex>{{ componentProps.customer_phone }}</div>
+      </div>
+    </div>
+    <div fxFlex fxLayoutGap="8px" fxLayout="column">
+      <div fxLayout="row">
+        <div fxFlex><b>Invoice #</b></div>
+        <div fxFlex>{{ componentProps.id }}</div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex><b>Invoice Date</b></div>
+        <div fxFlex>
+          {{ componentProps.invoice_date | date: "dd MMMM yyyy" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="zui-table" *ngIf="details">
+    <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of details; let i = index">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency }}</td>
+        <td>
+          {{ item.quantity * item.price | currency }}
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>Subtotal</b></td>
+        <td></td>
+        <td></td>
+        <td>{{subTotal || 0 | currency}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>Tax ({{componentProps.tax}}%)</b></td>
+        <td></td>
+        <td></td>
+        <td>{{tax || 0 | currency}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>Total</b></td>
+        <td></td>
+        <td></td>
+        <td>{{total || 0 | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ion-content>

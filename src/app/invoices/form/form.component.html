@@ -1,0 +1,130 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons
+      slot="start"
+      fxFlex="100"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <ion-button (click)="dismiss()" size="small">
+        <ion-icon name="arrow-back" slot="icon-only" mode="ios"></ion-icon>
+      </ion-button>
+
+      <ion-title>Invoice Form</ion-title>
+
+      <ion-button (click)="save()" size="small" [disabled]="form.invalid">
+        <ion-icon name="save-outline" slot="icon-only" mode="ios"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" class="ion-margin-bottom">
+    <ion-item>
+      <ion-label position="floating">Customer Name</ion-label>
+      <ion-input formControlName="customer_name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Customer Address</ion-label>
+      <ion-textarea formControlName="customer_address" rows="3"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Customer Phone</ion-label>
+      <ion-input formControlName="customer_phone" type="phone"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tax</ion-label>
+      <ion-input formControlName="tax" type="number"></ion-input>
+    </ion-item>
+
+    <ion-button (click)="addTransaction()" fill="full">
+      <ion-icon name="add"></ion-icon>
+      <ion-label>ADD ITEM</ion-label>
+    </ion-button>
+
+    <table class="zui-table">
+      <thead>
+        <tr>
+          <th>Item No</th>
+          <th>Item Name</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let transaction of t.controls; let i = index"
+          [formGroup]="transaction"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>
+            <ion-item>
+              <ion-label position="floating">Name</ion-label>
+              <ion-input type="text" formControlName="name"></ion-input>
+            </ion-item>
+          </td>
+          <td>
+            <ion-item>
+              <ion-label position="floating">Quantity</ion-label>
+              <ion-input type="number" formControlName="quantity"></ion-input>
+            </ion-item>
+          </td>
+          <td>
+            <ion-item>
+              <ion-label position="floating">Price</ion-label>
+              <ion-input type="number" formControlName="price"></ion-input>
+            </ion-item>
+          </td>
+          <td>
+            {{
+              transaction.get("quantity").value * transaction.get("price").value
+                | currency
+            }}
+          </td>
+          <td>
+            <ion-button
+              slot="end"
+              *ngIf="t.controls.length > 1"
+              color="danger"
+              (click)="removeTransaction(i)"
+            >
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>Subtotal</b></td>
+          <td></td>
+          <td></td>
+          <td>{{ subTotal || 0 | currency }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <b>Tax ({{ form.get("tax").value }}%)</b>
+          </td>
+          <td></td>
+          <td></td>
+          <td>{{ tax || 0 | currency }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>Total</b></td>
+          <td></td>
+          <td></td>
+          <td>{{ total || 0 | currency }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</ion-content>

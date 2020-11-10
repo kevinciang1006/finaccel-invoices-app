@@ -24,3 +24,30 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.modal-wrapper.sc-ion-modal-md {
+    --width: 80%;
+    --height: 80%;
+  }
+  
+.zui-table {
+    border: solid 1px #9ee9e9;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    // font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    background-color: #9ee9e9;
+    border: solid 1px #9ee9e9;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    // text-shadow: 1px 1px 1px #fff;
+}
+.zui-table tbody td {
+    border: solid 1px #9ee9e9;
+    // color: #333;
+    padding: 10px;
+    // text-shadow: 1px 1px 1px #fff;
+}

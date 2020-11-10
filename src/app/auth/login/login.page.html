@@ -1,0 +1,44 @@
+<div fxLayoutAlign="center center" style="width: 100vw; height: 100vh">
+  <ion-card fxFlex="40">
+    <ion-card-header color="primary">
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+
+    <form
+      [formGroup]="form"
+      fxLayout="column"
+      fxLayoutGap="8px"
+      class="w-100-p form-container"
+    >
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          type="text"
+          placeholder="Email"
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        ></ion-input>
+      </ion-item>
+    </form>
+
+    <div class="ion-margin">
+      <ion-button
+        expand="block"
+        shape=""
+        size="default"
+        color="dark"
+        fill="solid"
+        (click)="login()"
+      >
+        <span class="ion-text-capitalize">Login</span>
+      </ion-button>
+    </div>
+  </ion-card>
+</div>
