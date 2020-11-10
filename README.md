@@ -1,4 +1,4 @@
-# Finaccell Express backend
+# Finaccell Angular Frontend
 
 This is the backend using Angular Ionic
 
