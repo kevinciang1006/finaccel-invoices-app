@@ -1,6 +1,6 @@
 # Finaccell Angular Frontend
 
-This is the backend using Angular Ionic
+This is the frontend using Angular Ionic
 
 ## Installation
 
