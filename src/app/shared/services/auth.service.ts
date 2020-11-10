@@ -11,7 +11,7 @@ export class AuthService {
   authenticated = new BehaviorSubject<boolean>(false);
   user = new BehaviorSubject<any>({});
   curUser = null;
-  userRoles: any;
+  userRoles = [];
 
   constructor(public restService: RestService) {
     this.restService = restService;
@@ -46,9 +46,15 @@ export class AuthService {
     return response;
   }
 
+  register(data) {
+    const response = this.restService.postNoToken(CONSTANTS.API_URL + '/auth/signup', data);
+    console.log('response : ', response);
+    return response;
+  }
+
   logout() {
     localStorage.clear();
-    this.userRoles = null;
+    this.userRoles = [];
     this.authenticated.next(false);
     // const response = this.restService.post(CONSTANTS.API_URL + '/logout', {});
     // console.log('response : ', response);
@@ -58,7 +64,7 @@ export class AuthService {
   checkRole(compareRoles) {
     return new Promise<any>(async (resolve, reject) => {
       let res = null;
-      if (!this.userRoles) {
+      if (this.userRoles.length <= 0 && this.restService.token) {
         res = await this.getRole();
         this.userRoles = res.roles;
       }
@@ -78,14 +84,14 @@ export class AuthService {
   }
 
   compareRole(roles) {
-    if (roles.length <= 0 || !this.userRoles) { return true };
+    if (roles.length <= 0 || this.userRoles.length <= 0) { return true };
     const item = this.userRoles.find(item => roles.indexOf(item.name) > -1);
     return item ? true : false;
   }
 
   getRole() {
     return new Promise<any>((resolve, reject) => {
-      this.geRoleAPI().toPromise().then((result) => {
+      this.getRoleAPI().toPromise().then((result) => {
         resolve(result);
       }).catch((error) => {
         reject(error);
@@ -93,7 +99,7 @@ export class AuthService {
     });
   }
 
-  private geRoleAPI(): Observable<any> {
+  private getRoleAPI(): Observable<any> {
     return this.restService.post(CONSTANTS.API_URL + '/auth/role', {});
   }
 }

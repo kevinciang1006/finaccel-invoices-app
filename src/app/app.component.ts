@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
           cssClass: 'danger',
           handler: () => {
             this.auth.logout();
-            this.router.navigate(['login']);
+            this.router.navigate(['/login']);
           }
         }
       ]

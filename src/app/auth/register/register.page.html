@@ -1,7 +1,7 @@
 <div fxLayoutAlign="center center" style="width: 100vw; height: 100vh">
   <ion-card fxFlex="40">
-    <ion-card-header color="primary">
-      <ion-card-title>Login</ion-card-title>
+    <ion-card-header color="secondary">
+      <ion-card-title>Register</ion-card-title>
     </ion-card-header>
 
     <form
@@ -10,6 +10,14 @@
       fxLayoutGap="8px"
       class="w-100-p form-container"
     >
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input
+          type="text"
+          placeholder="Name"
+          formControlName="name"
+        ></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input
@@ -26,6 +34,14 @@
           formControlName="password"
         ></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="floating">Role</ion-label>
+        <ion-select formControlName="role">
+          <ion-select-option value="STAFF">STAFF</ion-select-option>
+          <ion-select-option value="LEAD">LEAD</ion-select-option>
+          <ion-select-option value="DIRECTOR">DIRECTOR</ion-select-option>
+        </ion-select>
+      </ion-item>
     </form>
 
     <div class="ion-margin">
@@ -35,11 +51,11 @@
         size="default"
         color="dark"
         fill="solid"
-        (click)="login()"
+        (click)="register()"
       >
-        <span class="ion-text-capitalize">Login</span>
+        <span class="ion-text-capitalize">Register</span>
       </ion-button>
-      <ion-button size="small" fill="outline" expand="block" (click)="register()">Register</ion-button>
+      <ion-button size="small" fill="outline" expand="block" (click)="login()">Login</ion-button>
     </div>
   </ion-card>
 </div>

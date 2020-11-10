@@ -8,16 +8,18 @@ import { RestService } from 'src/app/shared/services/rest.service';
 import { UtilitiesService } from 'src/app/shared/services/utilities.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
 
   // SIGN IN FORM
   form: FormGroup;
+  name: FormControl;
   email: FormControl;
   password: FormControl;
+  role: FormControl;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,48 +29,47 @@ export class LoginPage implements OnInit {
     private restService: RestService,
     private utility: UtilitiesService
   ) {
+    this.menuCtrl.enable(false);
+
+    this.name = new FormControl('', Validators.required);
     this.email = new FormControl('', Validators.required);
     this.password = new FormControl('', Validators.required);
+    this.role = new FormControl('', Validators.required);
 
     this.form = this.formBuilder.group({
+      name: this.name,
       email: this.email,
-      password: this.password
+      password: this.password,
+      role: this.role,
     });
 
     const tokenCheck = localStorage.getItem(CONSTANTS.TOKEN_NAME);
     if (tokenCheck) {
       this.router.navigate(['/invoices']);
     } else {
-      this.router.navigate(['/login']);
     }
   }
 
   ngOnInit(): void {
-    this.menuCtrl.enable(false);
   }
 
-  register() {
-    this.router.navigate(['/register']);
+  login() {
+    this.router.navigate(['/login']);    
   }
 
-  async login() {
-    console.log('login: ', this.form.value);
+  async register() {
+
+    const data = this.form.value;
+    data.roles = [data.role];
+    console.log('register: ', data);
     // this.utility.presentLoading();
-
-    this.auth.login(this.form.value).subscribe(
+    // return;
+    this.auth.register(data).subscribe(
       (next: any) => {
 
         console.log(next);
-        if (next.accessToken) {
-          localStorage.setItem(CONSTANTS.TOKEN_NAME, next.accessToken);
-          localStorage.setItem(CONSTANTS.USER, JSON.stringify(next.user));
-          this.auth.user.next(next.user);
-          this.auth.authenticated.next(true);
-          this.restService.setAuthorizationHeader(next.accessToken);
-          this.router.navigate(['/invoices']);
-          this.menuCtrl.enable(true);
-          this.utility.presentToast('Welcome to App Invoices ' + next.user.name);
-        }
+        this.router.navigate(['/login']);
+        this.utility.presentToast('Successfully registered');
       },
       (error: any) => {
         console.log(error);
